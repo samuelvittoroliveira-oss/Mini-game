@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini Game de Reflexo</title>
+  <style>
+    body {
+      margin: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      background: #111;
+      position: relative;
+    }
+
+    #game {
+      position: absolute;
+      padding: 15px 25px;
+      font-size: 20px;
+      cursor: pointer;
+      border: none;
+      border-radius: 10px;
+      background: #00ffcc;
+      color: #000;
+    }
+
+    #final {
+      display: none;
+      width: 100vw;
+      height: 100vh;
+      background: pink;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #mensagem {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 32px;
+      color: #fff;
+      text-align: center;
+      z-index: 10;
+      text-shadow: 2px 2px 5px #000;
+      max-width: 80%;
+    }
+
+    .heart {
+      position: absolute;
+      color: red;
+      font-size: 20px;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      from {
+        transform: translateY(-10vh);
+        opacity: 1;
+      }
+      to {
+        transform: translateY(110vh);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <button id="game">CLIQUE</button>
+
+  <div id="final">
+    <div id="mensagem">
+      💖 Sem perceber, você virou um dos motivos mais bonitos dos meus sorrisos. 💖
+    </div>
+  </div>
+
+  <script>
+    const btn = document.getElementById("game");
+    const final = document.getElementById("final");
+
+    let cliques = 0;
+    const maxCliques = 10;
+
+    function moverBotao() {
+      const x = Math.random() * (window.innerWidth - btn.offsetWidth);
+      const y = Math.random() * (window.innerHeight - btn.offsetHeight);
+      btn.style.left = x + "px";
+      btn.style.top = y + "px";
+    }
+
+    btn.addEventListener("click", () => {
+      cliques++;
+      if (cliques >= maxCliques) {
+        btn.style.display = "none";
+        final.style.display = "block";
+        criarCoracoes();
+      } else {
+        moverBotao();
+      }
+    });
+
+    moverBotao();
+
+    function criarCoracoes() {
+      for (let i = 0; i < 40; i++) {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerHTML = "❤️";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = (2 + Math.random() * 3) + "s";
+        heart.style.fontSize = (15 + Math.random() * 25) + "px";
+        final.appendChild(heart);
+      }
+    }
+  </script>
+
+</body>
+</html>
